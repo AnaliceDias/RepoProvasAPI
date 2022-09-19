@@ -12,7 +12,6 @@ export async function createUser(req: Request , res: Response){
         res.sendStatus(200)
     }
     catch(e){
-        console.log("deu ruim")
         res.sendStatus(500);
     } 
 }
