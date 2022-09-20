@@ -29,7 +29,7 @@
   "version": "1.0.0",
   "main": "dist/src/server.js",
   "scripts": {
-    "start:heroku": "node dist/server.js",
+    "start:heroku": "node dist/src/server.js",
     "dev": "ts-node-dev --respawn --transpile-only --rs --exit-child --ignore-watch node_modules ./src/server.ts",
     "migrate": "npx prisma migrate dev",
     "build": "tsc && prisma generate && prisma migrate deploy && prisma db seed",
