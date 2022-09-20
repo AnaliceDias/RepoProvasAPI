@@ -27,16 +27,16 @@
   },
   "name": "projeto20-repoprovas",
   "version": "1.0.0",
-  "main": "dist/server.js",
+  "main": "./dist/server.js",
   "scripts": {
     "dev": "tsc && nodemon src/server.ts",
     "migrate": "npx prisma migrate dev",
     "build": "tsc && prisma generate && prisma migrate deploy && prisma db seed",
-    "start": "node dist/server.js",
+    "start": "node ./dist/server.js",
     "test": "npx dotenv-cli -e .env.test jest -i"
   },
   "prisma": {
-    "seed": "ts-node dist/prisma/seed.js",
+    "seed": "ts-node ./dist/prisma/seed.js",
     "seedDev": "ts-node prisma/seed.ts"
   },
   "keywords": [],
