@@ -7,6 +7,6 @@ import { postTestSchema } from "../schemas/testSchemas";
 const testsRouter = Router();
 
 testsRouter.get("/tests",  authValidator , getTests);
-testsRouter.post("/tests" , authValidator , schemaValidator(postTestSchema), createTest);
+testsRouter.post("/tests" , schemaValidator(postTestSchema), authValidator , createTest);
 
 export default testsRouter;
