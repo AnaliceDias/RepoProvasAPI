@@ -1,31 +1,30 @@
 import { Request , Response } from "express";
-import { encryptPassword, generateToken, validatePassword } from "../services/authServices";
-import { findByEmail, sinUpRepository } from "../repositories/userRepository";
+import { encryptPassword, generateToken } from "../services/authServices";
+import { sinUpRepository } from "../repositories/userRepository";
+import { searchUserService } from "../services/userServices";
 
 export async function createUser(req: Request , res: Response){
     const {email , username , password , repeatedPassword} = req.body;
     if (!(password === repeatedPassword)) res.sendStatus(400);
     const hashPassword = await encryptPassword(password);
+    const user = await searchUserService(email);
  
-    try{
-        await sinUpRepository({email , username , password: hashPassword});
-        res.sendStatus(200)
+    if(!user){
+        try{
+            await sinUpRepository({email , username , password: hashPassword});
+            res.sendStatus(201)
+        }catch(e){
+            res.sendStatus(500);
+        } 
+    }else{
+        res.sendStatus(403)
     }
-    catch(e){
-        res.sendStatus(500);
-    } 
 }
 
 export async function signIn(req: Request , res: Response){
-    const {email , password} = req.body;
-
+    const { userId} = res.locals;
     try {
-        const user = await findByEmail(email);
-        user === null? res.sendStatus(401) : 
-        
-        !(await validatePassword(password, user.password))? res.sendStatus(401) :
-
-        res.status(200).send(await generateToken(user.id));
+        res.status(200).send(await generateToken(userId));
 
     }catch(e){
         res.status(500).send(e);

@@ -19,4 +19,4 @@ export async function authValidator(req: Request, res: Response, next: NextFunct
     } catch (e) {
       res.status(401).send("Token has expired");
     }
-  }
+}
