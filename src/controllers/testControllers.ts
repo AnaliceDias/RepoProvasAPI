@@ -1,17 +1,17 @@
 import { Request , Response } from "express";
 import { createTestInterface } from "../interfaces/interfaces";
-import { creatTestService, getRelationTeacherDiscipline, getTestsService } from "../services/testServices";
+import { creatTestService, custumizeQuery, getCategoriesService, getRelationTeacherDiscipline, getTestsService } from "../services/testServices";
 
 export async function getTests(req: Request , res: Response ) {
+
     try{
-        const tests = await getTestsService();
+        const tests = await getTestsService(req.query);
         res.send(tests);
      
     }catch(e){
         console.log(e)
         res.send(e);
     }
-    
 }
 
 export async function createTest(req: Request , res: Response){
@@ -33,5 +33,17 @@ export async function createTest(req: Request , res: Response){
     }catch(e){
         console.log(e);
         res.sendStatus(404);
+    }
+}
+
+export async function getCategories(req: Request , res: Response ) {
+
+    try{
+        const categories = await getCategoriesService();
+        res.send(categories);
+     
+    }catch(e){
+        console.log(e)
+        res.send(e);
     }
 }

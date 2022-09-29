@@ -1,27 +1,10 @@
+import { Prisma } from "@prisma/client";
 import client from "../config/database";
 import { createTestInterface } from "../interfaces/interfaces";
 
-export async function findTests(){
-    
-    return await client.$queryRaw`
-    SELECT disciplines.name as discipline ,
-    teachers.name as "teacherName" ,
-    terms.number as term,
-    tests.name as test,
-    categories.name as category,
-    "pdfURL"
-    FROM "teachersDisciplines"
-    JOIN disciplines
-    ON "teachersDisciplines"."disciplineId" = disciplines.id
-    JOIN "teachers"
-    ON "teachersDisciplines"."teacherId" = teachers.id
-    JOIN terms
-    ON disciplines."termId" = terms.id
-    JOIN tests
-    ON tests."teacherDisciplineId" = "teachersDisciplines".id
-    JOIN categories
-    ON tests."categoryId" = categories.id
-    `
+export async function findTests(query: string){
+
+    return await client.$queryRawUnsafe(query)
 }
 
 export async function findRelationTeacherDiscipline(teacher: string, discipline: string){
@@ -41,4 +24,10 @@ export async function insertTest(test: createTestInterface){
     const insertion = await client.tests.create({data: test});
 
     return insertion;
+}
+
+export async function findCategories(){
+    const allCategories = await client.categories.findMany();
+
+    return allCategories;
 }
